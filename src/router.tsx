@@ -5,6 +5,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import MainTheme from './theme/MainTheme'
 import { RouteObject } from 'react-router-dom';
 import Home from './page/Home';
+import Test from './page/Test';
 
 interface MenuItemProps {
     name: string;
@@ -57,7 +58,7 @@ const route: Array<RouteObject> = [
             },
             {
                 path: 'test',
-                element: <div>Test</div>
+                element: <Test />
             }
         ]
     },
