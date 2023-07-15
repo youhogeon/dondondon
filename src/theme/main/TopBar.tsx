@@ -1,8 +1,8 @@
-import { useState } from 'react'
 
-import { AppBar, Box, IconButton, Stack, Toolbar, Typography } from '@mui/material'
-import { Menu as MenuIcon } from '@mui/icons-material'
-
+import { Box, IconButton, Stack, Typography } from '@mui/material'
+import SaveIcon from '@mui/icons-material/Save';
+import MenuIcon from '@mui/icons-material/Menu';
+import BootstrapTooltip from '../../common/BootstrapTooltip';
 interface TopBarProps {
     width: number;
     title: string;
@@ -14,21 +14,17 @@ const TopBar = (props: TopBarProps) => {
         <Box
             position="fixed"
             sx={{
-                width: { md: `calc(100% - ${props.width}px)` },
+                width: { xs: '100%', md: `calc(100% - ${props.width}px)` },
                 backdropFilter: 'blur(6px)',
                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
                 ml: { md: `${props.width}px` },
-                px: 2
             }}
+            zIndex={999}
+            display='flex'
+            px={2}
+            justifyContent='space-between'
         >
-            <Stack
-                direction="row"
-                sx={{
-                    height: '50px',
-                    alignItems: 'center',
-                }}
-                spacing={1}
-            >
+            <Box display='flex' alignItems='center'>
                 <IconButton
                     onClick={props.onToggleMenu}
                     size="large"
@@ -40,9 +36,21 @@ const TopBar = (props: TopBarProps) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography variant="h5" component="div">
+                <Typography variant="h6" component="div" ml={1}>
                     {props.title}
                 </Typography>
+            </Box>
+
+            <Stack direction="row" spacing={1}>
+                <BootstrapTooltip title="저장 및 URL 생성">
+                    <IconButton
+                        size="large"
+                        color="inherit"
+                        aria-label="저장 및 URL 생성"
+                    >
+                        <SaveIcon />
+                    </IconButton>
+                </BootstrapTooltip>
             </Stack>
         </Box>
     )

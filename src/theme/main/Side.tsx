@@ -1,6 +1,7 @@
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
-import { Inbox as InboxIcon, Mail as MailIcon } from '@mui/icons-material'
+import { Box, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material"
+import { useNavigate } from "react-router-dom";
 
+import menu from '../../menu.ts'
 
 interface SideProps {
     width: number;
@@ -11,32 +12,35 @@ interface SideProps {
 const Side = (props: SideProps) => {
     const { APP_TITLE, APP_SUBTITLE } = import.meta.env
 
+    const navigate = useNavigate();
+
     const drawer = (
         <>
             <Box textAlign="center" mt={1} mb={2}>
-                <Typography fontFamily="'Grandiflora One'" variant="h4" sx={{
-                    fontWeight: 'bold',
-                    letterSpacing: '30px',
-                    marginRight: '-30px'
-                }}>
-                    {APP_TITLE}
-                </Typography>
+                <Link href="/" underline="none" color="inherit">
+                    <Typography fontFamily="'Grandiflora One'" variant="h4" ml={4} sx={{
+                        fontWeight: 'bold',
+                        letterSpacing: '32px',
+                    }}>
+                        {APP_TITLE}
+                    </Typography>
 
-                <Typography mt={1} sx={{ fontSize: '14px', letterSpacing: '4px', marginRight: '-4px' }}>
-                    {APP_SUBTITLE}
-                </Typography>
+                    <Typography mt={1} ml={0.5} sx={{ fontSize: '14px', letterSpacing: '4px' }}>
+                        {APP_SUBTITLE}
+                    </Typography>
+                </Link>
             </Box>
     
             <Divider />
 
             <List>
-                {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-                <ListItem key={text} disablePadding>
-                    <ListItemButton>
-                    <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
+                {menu.filter(menuItem => !menuItem.disabled).map((menuItem) => (
+                <ListItem key={menuItem.name} disablePadding>
+                    <ListItemButton onClick={() => { navigate(menuItem.to) }}>
+                        <ListItemIcon sx={{ mr: -1 }}>
+                            <menuItem.icon />
+                        </ListItemIcon>
+                        <ListItemText primary={menuItem.name} />
                     </ListItemButton>
                 </ListItem>
                 ))}
