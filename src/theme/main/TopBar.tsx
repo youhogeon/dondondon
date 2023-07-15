@@ -36,7 +36,7 @@ const TopBar = (props: TopBarProps) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography variant="h6" component="div" ml={1}>
+                <Typography variant="h6" component="div" ml={1} mt={-0.5}>
                     {props.title}
                 </Typography>
             </Box>
