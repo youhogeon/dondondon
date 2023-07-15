@@ -1,7 +1,7 @@
-/// <reference types="vite/client" />
+/// <reference types='vite/client' />
 
-declare module "@handsontable/react"
-declare module "handsontable/registry"
+declare module '@handsontable/react'
+declare module 'handsontable/registry'
 
 interface ImportMeta {
     env: {

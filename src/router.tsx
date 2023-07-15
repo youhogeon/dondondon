@@ -10,7 +10,7 @@ import Test from './page/Test';
 interface MenuItemProps {
     name: string;
     to: string;
-    icon: any;
+    icon: React.ElementType;
     disabled?: boolean;
 }
 
@@ -24,23 +24,23 @@ const menu: Array<MenuItemsProps> = [
     {
         children: [
             {
-                name: "홈",
-                to: "/",
+                name: '홈',
+                to: '/',
                 icon: HomeIcon,
             },
         ]
     },
     {
-        name: "계산기",
+        name: '계산기',
         children: [
             {
-                name: "모의 연말정산",
-                to: "/test",
+                name: '모의 연말정산',
+                to: '/test',
                 icon: AccountBalanceIcon,
             },
             {
-                name: "채권이자 계산기",
-                to: "/test",
+                name: '채권이자 계산기',
+                to: '/test',
                 icon: ReceiptLongIcon,
             },
         ]

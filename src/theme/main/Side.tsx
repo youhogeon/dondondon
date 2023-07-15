@@ -1,7 +1,7 @@
-import { Box, Divider, Drawer } from "@mui/material"
+import { Box, Divider, Drawer } from '@mui/material'
 
-import Menu from "./Menu.tsx";
-import Logo from "./Logo.tsx";
+import Menu from './Menu.tsx';
+import Logo from './Logo.tsx';
 
 interface SideProps {
     width: number;
@@ -21,21 +21,21 @@ const Side = (props: SideProps) => {
 
     return (
         <Box
-            component="nav"
+            component='nav'
             sx={{ width: { md: props.width }, flexShrink: { md: 0 } }}
-            aria-label="Navigation"
+            aria-label='Navigation'
         >
             <Drawer
-                variant="temporary"
+                variant='temporary'
                 open={props.open}
                 onClose={props.onToggleMenu}
                 ModalProps={{
                     keepMounted: true
                 }}
                 sx={{
-                    display: { xs: "block", md: "none" },
-                    "& .MuiDrawer-paper": {
-                        boxSizing: "border-box",
+                    display: { xs: 'block', md: 'none' },
+                    '& .MuiDrawer-paper': {
+                        boxSizing: 'border-box',
                         width: props.width
                     }
                 }}
@@ -43,11 +43,11 @@ const Side = (props: SideProps) => {
                 {drawer}
             </Drawer>
             <Drawer
-                variant="permanent"
+                variant='permanent'
                 sx={{
-                    display: { xs: "none", md: "block" },
-                    "& .MuiDrawer-paper": {
-                        boxSizing: "border-box",
+                    display: { xs: 'none', md: 'block' },
+                    '& .MuiDrawer-paper': {
+                        boxSizing: 'border-box',
                         width: props.width
                     }
                 }}

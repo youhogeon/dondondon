@@ -1,4 +1,4 @@
-import { Card, CardProps } from "@mui/material";
+import { Card, CardProps } from '@mui/material';
 
 const Section = (props: CardProps) => {
     return (
