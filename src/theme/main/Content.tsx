@@ -1,10 +1,9 @@
-import { Box, Toolbar } from "@mui/material"
+import { Box } from "@mui/material"
 import { Outlet } from "react-router-dom"
 
 const Content = () => {
     return (
-        <Box>
-            <Toolbar />
+        <Box mx={3} mt={8} width="100%">
             <Outlet />
         </Box>
     )
