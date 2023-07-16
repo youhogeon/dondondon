@@ -9,6 +9,7 @@ import Test from './page/Test';
 
 interface MenuItemProps {
     name: string;
+    pageTitle?: string;
     to: string;
     icon: React.ElementType;
     disabled?: boolean;
@@ -35,6 +36,7 @@ const menu: Array<MenuItemsProps> = [
         children: [
             {
                 name: '모의 연말정산',
+                pageTitle: '2024년 모의 연말정산 (2023년 귀속)',
                 to: '/test',
                 icon: AccountBalanceIcon,
             },
@@ -64,5 +66,21 @@ const route: Array<RouteObject> = [
     },
 ]
 
-export { menu, route }
+const getPageNamebyPath = (path: string): string => {
+    for (const superMenu of menu) {
+        for (const subMenu of superMenu.children) {
+            if (subMenu.to !== path) continue
+
+            const pageTitle = subMenu.pageTitle || subMenu.name
+
+            if (superMenu.name) return `${superMenu.name} > ${pageTitle}`
+
+            return pageTitle
+        }
+    }
+
+    return ''
+}
+
+export { menu, route, getPageNamebyPath }
 
