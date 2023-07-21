@@ -1,4 +1,4 @@
-import { createRef, forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
+import { createRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
 
 import HotTable, { HotTableProps } from '@handsontable/react'
 import { DetailedSettings } from 'handsontable/plugins/nestedHeaders'
@@ -71,17 +71,12 @@ interface HandsonTableRef {
 const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>) => {
     const hotRef = createRef<HotTable>()
 
-    const initialData = useMemo(() => {
-        const data: object[] = []
-
-        for (let i = 0; i < props.rows.length; i++) {
-            data.push({})
-        }
-
-        return data
-    }, [props.rows])
-
+    const initialData: object[] = []
     const data = useRef(initialData)
+
+    for (let i = 0; i < props.rows.length; i++) {
+        initialData.push({})
+    }
 
     useImperativeHandle(ref, () => ({
         get data() {
@@ -107,7 +102,7 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
         settings.nestedHeaders = converted
         settings.colHeaders = true
         columns.push(...converted[1])
-    } else {
+    } else { //for 1-level headers
         settings.colHeaders = props.columns as string[]
         columns.push(...settings.colHeaders)
     }
@@ -123,4 +118,4 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
 }
 
 export type { HandsonTableRef }
-export default forwardRef(HandsonTable)
+export default memo(forwardRef(HandsonTable))
