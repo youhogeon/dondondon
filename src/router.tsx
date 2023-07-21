@@ -6,7 +6,7 @@ import MainTheme from './themes/MainTheme'
 import { RouteObject } from 'react-router-dom';
 import Home from './pages/Home';
 import Test from './pages/Test';
-import TaxReturnPage from './pages/calc/TaxReturnPage';
+import TaxReturnPage from './pages/calcs/TaxReturnPage';
 
 interface MenuItemProps {
     name: string;

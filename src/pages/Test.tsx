@@ -42,13 +42,9 @@ const columns = [
 
 const Test = () => {
     const hotRef = createRef<HandsonTableRef>()
-    const hotRef2 = createRef<HandsonTableRef>()
-    const hotRef3 = createRef<HandsonTableRef>()
 
     const onClick = () => {
         alert(JSON.stringify(hotRef.current?.data))
-        alert(JSON.stringify(hotRef2.current?.data))
-        alert(JSON.stringify(hotRef3.current?.data))
     }
 
     return (
@@ -59,16 +55,6 @@ const Test = () => {
                     <CardContent>
                         <HandsonTable
                             ref={hotRef}
-                            columns={columns}
-                            rows={rows}
-                        />
-                        <HandsonTable
-                            ref={hotRef2}
-                            columns={columns}
-                            rows={rows}
-                        />
-                        <HandsonTable
-                            ref={hotRef3}
                             columns={columns}
                             rows={rows}
                         />
