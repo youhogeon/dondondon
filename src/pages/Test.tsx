@@ -1,7 +1,7 @@
 import { Button, CardActions, CardContent, CardHeader, Stack } from '@mui/material'
-import Card from '../common/Card'
+import Card from '../components/common/Card'
 
-import HandsonTable, { HandsonTableRef } from '../common/HandsonTable';
+import HandsonTable, { HandsonTableRef } from '../components/common/HandsonTable';
 import { createRef } from 'react';
 
 const rows = [...Array(12).keys()].map((i) => `${i + 1}월`)
@@ -42,9 +42,13 @@ const columns = [
 
 const Test = () => {
     const hotRef = createRef<HandsonTableRef>()
+    const hotRef2 = createRef<HandsonTableRef>()
+    const hotRef3 = createRef<HandsonTableRef>()
 
     const onClick = () => {
         alert(JSON.stringify(hotRef.current?.data))
+        alert(JSON.stringify(hotRef2.current?.data))
+        alert(JSON.stringify(hotRef3.current?.data))
     }
 
     return (
@@ -55,6 +59,16 @@ const Test = () => {
                     <CardContent>
                         <HandsonTable
                             ref={hotRef}
+                            columns={columns}
+                            rows={rows}
+                        />
+                        <HandsonTable
+                            ref={hotRef2}
+                            columns={columns}
+                            rows={rows}
+                        />
+                        <HandsonTable
+                            ref={hotRef3}
                             columns={columns}
                             rows={rows}
                         />

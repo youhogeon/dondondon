@@ -1,5 +1,5 @@
 import { Button, CardActions, CardContent, CardHeader, Stack } from '@mui/material'
-import Card from '../common/Card'
+import Card from '../components/common/Card'
 
 
 const Home = () => {

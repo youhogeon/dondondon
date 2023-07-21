@@ -2,10 +2,11 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import HomeIcon from '@mui/icons-material/Home';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
-import MainTheme from './theme/MainTheme'
+import MainTheme from './themes/MainTheme'
 import { RouteObject } from 'react-router-dom';
-import Home from './page/Home';
-import Test from './page/Test';
+import Home from './pages/Home';
+import Test from './pages/Test';
+import TaxReturnPage from './pages/calc/TaxReturnPage';
 
 interface MenuItemProps {
     name: string;
@@ -37,7 +38,7 @@ const menu: Array<MenuItemsProps> = [
             {
                 name: '모의 연말정산',
                 pageTitle: '2024년 모의 연말정산 (2023년 귀속)',
-                to: '/test',
+                to: '/calcs/tax-return-2024',
                 icon: AccountBalanceIcon,
             },
             {
@@ -57,6 +58,15 @@ const route: Array<RouteObject> = [
             {
                 path: '',
                 element: <Home />
+            },
+            {
+                path: 'calcs',
+                children: [
+                    {
+                        path: 'tax-return-2024',
+                        element: <TaxReturnPage />
+                    }
+                ]
             },
             {
                 path: 'test',
