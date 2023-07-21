@@ -2,7 +2,6 @@ import { RouteObject } from 'react-router-dom'
 
 import TaxReturnPage from './pages/calcs/TaxReturnPage'
 import Home from './pages/Home'
-import Test from './pages/Test'
 import MainTheme from './themes/MainTheme'
 
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
@@ -69,10 +68,6 @@ const route: Array<RouteObject> = [
                         element: <TaxReturnPage />
                     }
                 ]
-            },
-            {
-                path: 'test',
-                element: <Test />
             }
         ]
     },

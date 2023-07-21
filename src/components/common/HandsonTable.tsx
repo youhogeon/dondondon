@@ -1,6 +1,7 @@
 import { createRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
 
 import HotTable, { HotTableProps } from '@handsontable/react'
+import Handsontable from 'handsontable'
 import { DetailedSettings } from 'handsontable/plugins/nestedHeaders'
 import { registerAllModules } from 'handsontable/registry'
 import { ColumnSettings } from 'handsontable/settings'
@@ -17,6 +18,8 @@ interface NestedColumns {
 interface HandsonTableProps {
     columns: string[] | NestedColumns[],
     rows: string[];
+
+    fullWidth?: boolean;
 
     columnsInfo?: ColumnSettings[];
 }
@@ -65,7 +68,7 @@ const convertColumnsInfo = (columns: string[]): ColumnSettings[] => {
 
 interface HandsonTableRef {
     data: object[];
-    hot: HotTable | null;
+    hot: Handsontable | null;
 }
 
 const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>) => {
@@ -83,7 +86,9 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
             return data.current
         },
         get hot() {
-            return hotRef.current
+            const instance = hotRef.current?.hotInstance
+
+            return instance || null
         }
     }))
 
@@ -91,6 +96,7 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
         rowHeaders: props.rows,
         data: data.current,
         height: 'auto',
+        stretchH: props.fullWidth ? 'all' : 'none',
         licenseKey: 'non-commercial-and-evaluation'
     }
 

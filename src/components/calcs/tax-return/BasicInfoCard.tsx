@@ -1,6 +1,6 @@
 import Card from '../../common/Card'
 
-import { CardHeader, CardContent } from '@mui/material'
+import { CardHeader, CardContent, TextField } from '@mui/material'
 
 
 const BasicInfoCard = () => {
@@ -8,7 +8,7 @@ const BasicInfoCard = () => {
         <Card>
             <CardHeader title='기본 정보 입력' />
             <CardContent>
-                연령, 부양가족 등
+                <TextField id="outlined-basic" label="연령" variant="outlined" />
             </CardContent>
         </Card>
     )
