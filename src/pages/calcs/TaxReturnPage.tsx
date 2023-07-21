@@ -1,5 +1,12 @@
+import { Stack } from '@mui/material'
+import BasicInfoCard from '../../components/calcs/tax-return/BasicInfoCard'
+
 const TaxReturnPage = () => {
-    return <div>Tax Return</div>;
+    return (
+        <Stack>
+            <BasicInfoCard />
+        </Stack>
+    )
 }
 
 export default TaxReturnPage
