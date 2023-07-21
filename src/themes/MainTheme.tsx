@@ -1,15 +1,19 @@
-import { ThemeProvider } from '@emotion/react'
-import { mainTheme } from './theme.ts'
 import { useEffect, useState } from 'react'
-import Side from './main/Side.tsx'
-import { Box, CssBaseline } from '@mui/material'
-import TopBar from './main/TopBar.tsx'
-import Content from './main/Content.tsx'
 import { useLocation } from 'react-router-dom'
+
+import { ThemeProvider } from '@emotion/react'
+
+import Content from './main/Content.tsx'
+import Side from './main/Side.tsx'
+import TopBar from './main/TopBar.tsx'
+import { mainTheme } from './theme.ts'
 import { getPageNamebyPath } from '../router.tsx'
 
+import { Box, CssBaseline } from '@mui/material'
+
+
 const MainTheme = () => {
-    const sideWidth = 240;
+    const sideWidth = 240
 
     const { pathname } = useLocation()
     const [sideOpen, setSideOpen] = useState(false)

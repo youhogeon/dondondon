@@ -1,12 +1,13 @@
+import { createRef, forwardRef, useImperativeHandle, useMemo, useRef } from 'react'
+
 import HotTable, { HotTableProps } from '@handsontable/react'
-import { registerAllModules } from 'handsontable/registry';
+import { DetailedSettings } from 'handsontable/plugins/nestedHeaders'
+import { registerAllModules } from 'handsontable/registry'
+import { ColumnSettings } from 'handsontable/settings'
 
-import 'handsontable/dist/handsontable.full.min.css';
-import { createRef, forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
-import { DetailedSettings } from 'handsontable/plugins/nestedHeaders';
-import { ColumnSettings } from 'handsontable/settings';
+import 'handsontable/dist/handsontable.full.min.css'
 
-registerAllModules();
+registerAllModules()
 
 interface NestedColumns {
     name: string;
@@ -29,7 +30,7 @@ const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], st
             superColumns.push({
                 label: '',
                 colspan: 1
-            });
+            })
 
             subColumns.push(column.name)
 
@@ -42,7 +43,7 @@ const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], st
         })
 
         subColumns.push(...column.children)
-    });
+    })
 
     return [superColumns, subColumns]
 }
@@ -84,10 +85,10 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
 
     useImperativeHandle(ref, () => ({
         get data() {
-            return data.current;
+            return data.current
         },
         get hot() {
-            return hotRef.current;
+            return hotRef.current
         }
     }))
 

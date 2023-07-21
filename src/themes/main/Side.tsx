@@ -1,7 +1,8 @@
+import Logo from './Logo.tsx'
+import Menu from './Menu.tsx'
+
 import { Box, Divider, Drawer } from '@mui/material'
 
-import Menu from './Menu.tsx';
-import Logo from './Logo.tsx';
 
 interface SideProps {
     width: number;

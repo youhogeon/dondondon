@@ -1,7 +1,8 @@
+import BootstrapTooltip from '../../components/common/BootstrapTooltip'
+
+import MenuIcon from '@mui/icons-material/Menu'
+import SaveIcon from '@mui/icons-material/Save'
 import { Box, IconButton, Stack, Typography } from '@mui/material'
-import SaveIcon from '@mui/icons-material/Save';
-import MenuIcon from '@mui/icons-material/Menu';
-import BootstrapTooltip from '../../components/common/BootstrapTooltip';
 interface TopBarProps {
     width: number;
     title: string;

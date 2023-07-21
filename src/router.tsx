@@ -1,12 +1,14 @@
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import HomeIcon from '@mui/icons-material/Home';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { RouteObject } from 'react-router-dom'
 
+import TaxReturnPage from './pages/calcs/TaxReturnPage'
+import Home from './pages/Home'
+import Test from './pages/Test'
 import MainTheme from './themes/MainTheme'
-import { RouteObject } from 'react-router-dom';
-import Home from './pages/Home';
-import Test from './pages/Test';
-import TaxReturnPage from './pages/calcs/TaxReturnPage';
+
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
+import HomeIcon from '@mui/icons-material/Home'
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+
 
 interface MenuItemProps {
     name: string;

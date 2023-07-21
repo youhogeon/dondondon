@@ -1,5 +1,7 @@
-import { CardHeader, CardContent } from '@mui/material'
 import Card from '../../common/Card'
+
+import { CardHeader, CardContent } from '@mui/material'
+
 
 const BasicInfoCard = () => {
     return (
