@@ -56,11 +56,18 @@ const colLength = columns.reduce((n, { children }) => n + children.length, 0)
 
 const OUTCOME_COL_START = 3
 
+const forceSum = (a: unknown, b: unknown) => {
+    const x = parseInt(a as string)
+    const y = parseInt(b as string)
+
+    return (x || 0) + (y || 0)
+}
+
 const calcAndSetSum = (hot: Handsontable) => {
     let totalSum = 0
 
     for (let i = 0; i < rowLength - 1; i++) {
-        const outcome = hot.getDataAtRow(i).slice(OUTCOME_COL_START, -1).reduce((a, b) => a + b, 0)
+        const outcome = hot.getDataAtRow(i).slice(OUTCOME_COL_START, -1).reduce(forceSum, 0)
         const sum = hot.getDataAtCell(i, 0) - outcome
 
         totalSum += sum
@@ -69,7 +76,7 @@ const calcAndSetSum = (hot: Handsontable) => {
     }
 
     for (let i = 0; i < colLength; i++) {
-        const sum = hot.getDataAtCol(i).slice(0, -1).reduce((a, b) => a + b, 0)
+        const sum = hot.getDataAtCol(i).slice(0, -1).reduce(forceSum, 0)
 
         hot.setDataAtCell(rowLength - 1, i, sum, 'loadData')
     }
@@ -90,7 +97,6 @@ const IncomeInfoCard = () => {
 
                 return {
                     readOnly,
-                    allowInvalid: false,
                     renderer: (...args) => {
                         const td = args[1], col = args[3]
         
