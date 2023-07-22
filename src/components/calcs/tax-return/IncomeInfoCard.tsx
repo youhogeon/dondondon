@@ -1,6 +1,7 @@
-import { createRef, useEffect } from 'react'
+import { createRef, useEffect, useState } from 'react'
 
-import { textRenderer } from 'handsontable/renderers'
+import Handsontable from 'handsontable'
+import { numericRenderer } from 'handsontable/renderers'
 
 import Card from '../../common/Card'
 import HandsonTable, { HandsonTableRef } from '../../common/HandsonTable'
@@ -15,31 +16,37 @@ const columns = [
     {
         name: '수입 (비과세 포함)',
         children: [
-            '세전 총 급여'
+            { name: '세전 총 급여', key: '수입.급여' },
         ]
     },
     {
         name: '수입 중 비과세',
         children: [
-            '식대', '기타 비과세'
+            { name: '식대', key: '비과세.식대' },
+            { name: '기타 비과세', key: '비과세.기타' },
         ]
     },
     {
         name: '기납부세액 (원천징수)',
         children: [
-            '소득세', '지방소득세'
+            { name: '소득세', key: '원천징수.소득세' },
+            { name: '지방소득세', key: '원천징수.지방소득세' },
         ]
     },
     {
         name: '공제(4대보험 등)',
         children: [
-            '국민건강보험', '장기요양보험', '국민연금', '고용보험료', '기타공제'
+            { name: '국민건강보험', key: '공제.국민건강보험' },
+            { name: '장기요양보험', key: '공제.장기요양보험' },
+            { name: '국민연금', key: '공제.국민연금' },
+            { name: '고용보험료', key: '공제.고용보험료' },
+            { name: '기타공제', key: '공제.기타' },
         ]
     },
     {
         name: '합계',
         children: [
-            '실질 수령액'
+            { name: '실질 수령액', key: '합계.실수령' },
         ]
     }
 ]
@@ -47,9 +54,35 @@ const columns = [
 const rowLength = rows.length
 const colLength = columns.reduce((n, { children }) => n + children.length, 0)
 
+const OUTCOME_COL_START = 3
+
+const calcAndSetSum = (hot: Handsontable) => {
+    let totalSum = 0
+
+    for (let i = 0; i < rowLength - 1; i++) {
+        const outcome = hot.getDataAtRow(i).slice(OUTCOME_COL_START, -1).reduce((a, b) => a + b, 0)
+        const sum = hot.getDataAtCell(i, 0) - outcome
+
+        totalSum += sum
+
+        hot.setDataAtCell(i, colLength - 1, sum, 'loadData')
+    }
+
+    for (let i = 0; i < colLength; i++) {
+        const sum = hot.getDataAtCol(i).slice(0, -1).reduce((a, b) => a + b, 0)
+
+        hot.setDataAtCell(rowLength - 1, i, sum, 'loadData')
+    }
+
+    hot.setDataAtCell(rowLength - 1, colLength - 1, totalSum, 'loadData')
+
+}
+
 const IncomeInfoCard = () => {
     const hotRef = createRef<HandsonTableRef>()
+    const [data, setData] = useState<object[]>([])
 
+    // Table 설정 (width, readonly 등)
     useEffect(() => {
         hotRef.current?.hot?.updateSettings({
             cells(row, col) {
@@ -61,7 +94,7 @@ const IncomeInfoCard = () => {
                     renderer: (...args) => {
                         const td = args[1], col = args[3]
         
-                        textRenderer.apply(this, args)
+                        numericRenderer.apply(this, args)
 
                         if (readOnly) {
                             td.style.cursor = 'not-allowed'
@@ -73,10 +106,21 @@ const IncomeInfoCard = () => {
                 }
             }
         })
+
+        onChange()
     }, [])
 
     const onClick = () => {
-        alert(JSON.stringify(hotRef.current?.data))
+        // eslint-disable-next-line no-console
+        console.log(JSON.stringify(data[rowLength - 1]))
+    }
+
+    const onChange = () => {
+        const hot = hotRef.current?.hot
+        if (!hot) return
+
+        calcAndSetSum(hot)
+        setData(hotRef.current.data)
     }
 
     return (
@@ -87,6 +131,7 @@ const IncomeInfoCard = () => {
                     ref={hotRef}
                     columns={columns}
                     rows={rows}
+                    onChange={onChange}
                     fullWidth
                 />
             </CardContent>

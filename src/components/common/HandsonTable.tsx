@@ -2,6 +2,7 @@ import { createRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
 
 import HotTable, { HotTableProps } from '@handsontable/react'
 import Handsontable from 'handsontable'
+import { CellChange, ChangeSource } from 'handsontable/common'
 import { DetailedSettings } from 'handsontable/plugins/nestedHeaders'
 import { registerAllModules } from 'handsontable/registry'
 import { ColumnSettings } from 'handsontable/settings'
@@ -10,9 +11,14 @@ import 'handsontable/dist/handsontable.full.min.css'
 
 registerAllModules()
 
+interface Column {
+    name: string;
+    key: string;
+}
+
 interface NestedColumns {
     name: string;
-    children?: string[];
+    children?: Array<string | Column>;
 }
 
 interface HandsonTableProps {
@@ -22,11 +28,14 @@ interface HandsonTableProps {
     fullWidth?: boolean;
 
     columnsInfo?: ColumnSettings[];
+
+    onChange?: (data: object[]) => void;
 }
 
-const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], string[]] => {
+const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], string[], string[]] => {
     const superColumns: DetailedSettings[] = []
     const subColumns: string[] = []
+    const keys: string[] = []
 
     columns.forEach(column => {
         if (!column.children) {
@@ -36,6 +45,7 @@ const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], st
             })
 
             subColumns.push(column.name)
+            keys.push(column.name)
 
             return
         }
@@ -45,17 +55,25 @@ const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], st
             colspan: column.children.length
         })
 
-        subColumns.push(...column.children)
+        column.children.forEach(child => {
+            if (typeof child === 'string') {
+                subColumns.push(child)
+                keys.push(child)
+            } else {
+                subColumns.push(child.name)
+                keys.push(child.key)
+            }
+        })
     })
 
-    return [superColumns, subColumns]
+    return [superColumns, subColumns, keys]
 }
 
-const convertColumnsInfo = (columns: string[]): ColumnSettings[] => {
+const convertColumnsInfo = (keys: string[]): ColumnSettings[] => {
     const columnsInfo: ColumnSettings[] = []
-    columns.forEach(column => {
+    keys.forEach(key => {
         columnsInfo.push({
-            data: column,
+            data: key,
             type: 'numeric',
             numericFormat: {
                 pattern: '0,0',
@@ -92,28 +110,35 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
         }
     }))
 
+    const afterChange = (_changes: CellChange[] | null, source: ChangeSource) => {
+        if (source === 'loadData') return
+
+        props.onChange && props.onChange(data.current)
+    }
+
     const settings: HotTableProps = {
         rowHeaders: props.rows,
         data: data.current,
         height: 'auto',
         stretchH: props.fullWidth ? 'all' : 'none',
-        licenseKey: 'non-commercial-and-evaluation'
-    }
+        licenseKey: 'non-commercial-and-evaluation',
 
-    const columns: string[] = []
+        afterChange,
+    }
 
     if (props.columns.length && typeof props.columns[0] === 'object') { //for nested headers
         const converted = convertNestedColumns(props.columns as NestedColumns[])
 
-        settings.nestedHeaders = converted
+        settings.nestedHeaders = [converted[0], converted[1]]
         settings.colHeaders = true
-        columns.push(...converted[1])
+        settings.columns = props.columnsInfo || convertColumnsInfo(converted[2])
     } else { //for 1-level headers
-        settings.colHeaders = props.columns as string[]
-        columns.push(...settings.colHeaders)
+        const columns = props.columns as string[]
+
+        settings.colHeaders = columns
+        settings.columns = props.columnsInfo || convertColumnsInfo(columns)
     }
 
-    settings.columns = props.columnsInfo || convertColumnsInfo(columns)
 
     return (
         <HotTable
