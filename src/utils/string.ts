@@ -15,6 +15,16 @@ const checkWithWildcard = (pattern: string, value: string) => {
     return true
 }
 
+const floorTo10 = (value: number) => {
+    return Math.floor(value / 10) * 10
+}
+
+const floorTo1000 = (value: number) => {
+    return Math.floor(value / 1000) * 1000
+}
+
 export {
-    checkWithWildcard
+    checkWithWildcard,
+    floorTo10,
+    floorTo1000
 }

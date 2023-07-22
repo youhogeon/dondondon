@@ -4,7 +4,7 @@ import Handsontable from 'handsontable'
 import { CellChange } from 'handsontable/common'
 import { numericRenderer } from 'handsontable/renderers'
 
-import { checkWithWildcard } from '../../../utils/string'
+import { checkWithWildcard, floorTo10, floorTo1000 } from '../../../utils/string'
 import Card from '../../common/Card'
 import HandsonTable, { HandsonTableRef } from '../../common/HandsonTable'
 
@@ -44,7 +44,7 @@ const columns = [
             { name: '국민건강보험', key: '공제.국민건강보험' },
             { name: '장기요양보험', key: '공제.장기요양보험' },
             { name: '국민연금', key: '공제.국민연금' },
-            { name: '고용보험료', key: '공제.고용보험료' },
+            { name: '고용보험료', key: '공제.고용보험' },
             { name: '기타공제', key: '공제.기타' },
         ]
     },
@@ -81,6 +81,7 @@ const getData = (hot: Handsontable, row: number, columnKey: string) => {
             if (checkWithWildcard(columnKey, k)) {
                 sum += (parseInt(hot.getDataAtCell(row, idx)) || 0)
             }
+
             idx++
         })
     })
@@ -93,6 +94,13 @@ const setData = (hot: Handsontable, row: number, columnKey: string | number, val
     if (idx === -1) return
 
     hot.setDataAtCell(row, idx, value, 'loadData')
+}
+
+const isEmpty = (hot: Handsontable, row: number, columnKey: string) => {
+    const idx = typeof(columnKey) === 'number' ? columnKey : getColIdx(columnKey)
+    if (idx === -1) return true
+
+    return (hot.getDataAtCell(row, idx) === null || hot.getDataAtCell(row, idx) === '')
 }
 
 const OUTCOME_COL_START = getColIdx('원천징수.소득세')
@@ -176,9 +184,34 @@ const IncomeInfoCard = () => {
 
             const 수입 = getData(hot, row, '수입.*')
             
-            const 식대Idx = getColIdx('비과세.식대')
-            if (hot.getDataAtCell(row, 식대Idx) === null || hot.getDataAtCell(row, 식대Idx) === '') {
-                setData(hot, row, '비과세.식대', Math.min(newValue, 200000))
+            if (isEmpty(hot, row, '비과세.식대')) {
+                setData(hot, row, '비과세.식대', Math.min(수입, 200000))
+            }
+            
+            let 건보료 = floorTo10(floorTo1000(수입) * 0.0709)
+            건보료 = Math.min(건보료, 7_822_560)
+            건보료 = Math.max(건보료, 19_780)
+
+            if (isEmpty(hot, row, '공제.국민건강보험')) {
+                setData(hot, row, '공제.국민건강보험', floorTo10(건보료 / 2))
+            }
+
+            if (isEmpty(hot, row, '공제.장기요양보험')) {
+                const value = floorTo10(floorTo10(건보료 * 0.009082 / 0.0709) / 2)
+
+                setData(hot, row, '공제.장기요양보험', value)
+            }
+
+            if (isEmpty(hot, row, '공제.국민연금')) {
+                let value = floorTo10(floorTo1000(수입) * 0.045)
+                value = Math.min(value, 265_500)
+                value = Math.max(value, 16_650)
+
+                setData(hot, row, '공제.국민연금', value)
+            }
+
+            if (isEmpty(hot, row, '공제.고용보험')) {
+                setData(hot, row, '공제.고용보험', floorTo10(floorTo1000(수입) * 0.009))
             }
         })
 
