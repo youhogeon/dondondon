@@ -29,7 +29,7 @@ interface HandsonTableProps {
 
     columnsInfo?: ColumnSettings[];
 
-    onChange?: (data: object[]) => void;
+    onChange?: (changes: CellChange[], source: ChangeSource) => void;
 }
 
 const convertNestedColumns = (columns: NestedColumns[]): [DetailedSettings[], string[], string[]] => {
@@ -110,10 +110,10 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
         }
     }))
 
-    const afterChange = (_changes: CellChange[] | null, source: ChangeSource) => {
-        if (source === 'loadData') return
+    const afterChange = (changes: CellChange[] | null, source: ChangeSource) => {
+        if (!changes || source === 'loadData') return
 
-        props.onChange && props.onChange(data.current)
+        props.onChange && props.onChange(changes, source)
     }
 
     const settings: HotTableProps = {
