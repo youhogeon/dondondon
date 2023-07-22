@@ -1,4 +1,4 @@
-const checkWithWildcard = (pattern: string, value: string) => {
+export const checkWithWildcard = (pattern: string, value: string) => {
     const patternArr = pattern.split('.')
     const valueArr = value.split('.')
 
@@ -15,16 +15,10 @@ const checkWithWildcard = (pattern: string, value: string) => {
     return true
 }
 
-const floorTo10 = (value: number) => {
+export const floorTo10 = (value: number) => {
     return Math.floor(value / 10) * 10
 }
 
-const floorTo1000 = (value: number) => {
+export const floorTo1000 = (value: number) => {
     return Math.floor(value / 1000) * 1000
-}
-
-export {
-    checkWithWildcard,
-    floorTo10,
-    floorTo1000
 }

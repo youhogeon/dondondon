@@ -2,10 +2,11 @@ import { createRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
 
 import HotTable, { HotTableProps } from '@handsontable/react'
 import Handsontable from 'handsontable'
-import { CellChange, ChangeSource } from 'handsontable/common'
+import { CellChange, ChangeSource, RangeType } from 'handsontable/common'
 import { DetailedSettings } from 'handsontable/plugins/nestedHeaders'
 import { registerAllModules } from 'handsontable/registry'
 import { ColumnSettings } from 'handsontable/settings'
+import { HyperFormula } from 'hyperformula'
 
 import 'handsontable/dist/handsontable.full.min.css'
 
@@ -80,7 +81,7 @@ const convertColumnsInfo = (keys: string[]): ColumnSettings[] => {
             }
         })
     })
-    
+
     return columnsInfo
 }
 
@@ -116,12 +117,20 @@ const HandsonTable = (props: HandsonTableProps, ref: React.Ref<HandsonTableRef>)
         props.onChange && props.onChange(changes, source)
     }
 
+    const hyperformulaInstance = HyperFormula.buildEmpty({
+        licenseKey: 'internal-use-in-handsontable',
+    })
+
     const settings: HotTableProps = {
         rowHeaders: props.rows,
         data: data.current,
         height: 'auto',
         stretchH: props.fullWidth ? 'all' : 'none',
         licenseKey: 'non-commercial-and-evaluation',
+
+        formulas: {
+            engine: hyperformulaInstance,
+        },
 
         afterChange,
     }

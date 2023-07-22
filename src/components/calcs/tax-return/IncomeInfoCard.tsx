@@ -4,6 +4,7 @@ import Handsontable from 'handsontable'
 import { CellChange } from 'handsontable/common'
 import { numericRenderer } from 'handsontable/renderers'
 
+import { getTax } from './utils'
 import { checkWithWildcard, floorTo10, floorTo1000 } from '../../../utils/string'
 import Card from '../../common/Card'
 import HandsonTable, { HandsonTableRef } from '../../common/HandsonTable'
@@ -12,13 +13,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import { Box, Button, CardContent, CardHeader, Grow, Tab, Tabs } from '@mui/material'
 
-
 const rows = [...Array(12).keys()].map((i) => `${i + 1}월`)
 rows.push('합계')
 
 const columns = [
     {
-        name: '세전 수입 (비과세 포함)',
+        name: '세전 근로소득 (비과세 포함)',
         children: [
             { name: '급여', key: '수입.급여' },
             { name: '상여 등', key: '수입.기타' },
@@ -44,7 +44,7 @@ const columns = [
             { name: '국민건강보험', key: '공제.국민건강보험' },
             { name: '장기요양보험', key: '공제.장기요양보험' },
             { name: '국민연금', key: '공제.국민연금' },
-            { name: '고용보험료', key: '공제.고용보험' },
+            { name: '고용보험', key: '공제.고용보험' },
             { name: '기타공제', key: '공제.기타' },
         ]
     },
@@ -107,27 +107,6 @@ const OUTCOME_COL_START = getColIdx('원천징수.소득세')
 
 const forceSum = (a: string, b: string) => ((parseInt(a) || 0) + (parseInt(b) || 0))
 
-const calcAndSetSum = (hot: Handsontable) => {
-    let totalSum = 0
-
-    for (let i = 0; i < rowLength - 1; i++) {
-        const outcome = hot.getDataAtRow(i).slice(OUTCOME_COL_START, -1).reduce(forceSum, 0)
-        const sum = getData(hot, i, '수입.*') - outcome
-
-        totalSum += sum
-
-        setData(hot, i, colLength - 1, sum)
-    }
-
-    for (let i = 0; i < colLength; i++) {
-        const sum = hot.getDataAtCol(i).slice(0, -1).reduce(forceSum, 0)
-
-        setData(hot, rowLength - 1, i, sum)
-    }
-
-    setData(hot, rowLength - 1, colLength - 1, totalSum)
-}
-
 const IncomeInfoCard = () => {
     const hotRef = createRef<HandsonTableRef>()
     const [tableData, setTableData] = useState<object[]>([])
@@ -166,6 +145,30 @@ const IncomeInfoCard = () => {
         console.log(JSON.stringify(tableData[rowLength - 1]))
     }
 
+    const calcAndSetSum = () => {
+        const hot = hotRef.current?.hot
+        if (!hot) return
+
+        let totalSum = 0
+    
+        for (let i = 0; i < rowLength - 1; i++) {
+            const outcome = hot.getDataAtRow(i).slice(OUTCOME_COL_START, -1).reduce(forceSum, 0)
+            const sum = getData(hot, i, '수입.*') - outcome
+    
+            totalSum += sum
+    
+            setData(hot, i, colLength - 1, sum)
+        }
+    
+        for (let i = 0; i < colLength; i++) {
+            const sum = hot.getDataAtCol(i).slice(0, -1).reduce(forceSum, 0)
+    
+            setData(hot, rowLength - 1, i, sum)
+        }
+    
+        setData(hot, rowLength - 1, colLength - 1, totalSum)
+    }
+
     const onChange = (changes: CellChange[]) => {
         const hot = hotRef.current?.hot
         if (!hot) return
@@ -186,6 +189,15 @@ const IncomeInfoCard = () => {
             
             if (isEmpty(hot, row, '비과세.식대')) {
                 setData(hot, row, '비과세.식대', Math.min(수입, 200000))
+            }
+            
+            const tax = getTax(수입, 1)
+            if (isEmpty(hot, row, '원천징수.소득세')) {
+                setData(hot, row, '원천징수.소득세', tax)
+            }
+
+            if (isEmpty(hot, row, '원천징수.지방소득세')) {
+                setData(hot, row, '원천징수.지방소득세', floorTo10(tax * 0.1))
             }
             
             let 건보료 = floorTo10(floorTo1000(수입) * 0.0709)
@@ -215,7 +227,9 @@ const IncomeInfoCard = () => {
             }
         })
 
-        calcAndSetSum(hot) // TODO: 싱크 문제 해결
+        setTimeout(() => {
+            calcAndSetSum()
+        }, 10)
 
         setTableData(hotRef.current.data)
     }
