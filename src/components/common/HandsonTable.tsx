@@ -2,7 +2,7 @@ import { createRef, forwardRef, memo, useImperativeHandle, useRef } from 'react'
 
 import HotTable, { HotTableProps } from '@handsontable/react'
 import Handsontable from 'handsontable'
-import { CellChange, ChangeSource, RangeType } from 'handsontable/common'
+import { CellChange, ChangeSource } from 'handsontable/common'
 import { DetailedSettings } from 'handsontable/plugins/nestedHeaders'
 import { registerAllModules } from 'handsontable/registry'
 import { ColumnSettings } from 'handsontable/settings'

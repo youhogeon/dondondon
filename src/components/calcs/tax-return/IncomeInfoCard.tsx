@@ -191,7 +191,7 @@ const IncomeInfoCard = () => {
                 setData(hot, row, '비과세.식대', Math.min(수입, 200000))
             }
             
-            const tax = getTax(수입, 1)
+            const tax = getTax(수입, 1) // TODO: 가족 수에 따라 바뀌어야 함
             if (isEmpty(hot, row, '원천징수.소득세')) {
                 setData(hot, row, '원천징수.소득세', tax)
             }
