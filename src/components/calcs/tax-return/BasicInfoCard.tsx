@@ -70,7 +70,7 @@ const BasicInfoCard = () => {
 
     return (
         <Card>
-            <CardHeader title='부양가족 정보 입력' />1
+            <CardHeader title='부양가족 정보 입력' />
             <CardContent>
                 <TableContainer sx={{ maxWidth: 600 }}>
                     <Table size="small">
