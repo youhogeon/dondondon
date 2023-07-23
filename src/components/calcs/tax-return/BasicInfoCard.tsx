@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react'
 import Card from '../../common/Card'
 
 import DeleteIcon from '@mui/icons-material/Delete'
-import { CardHeader, CardContent, FormControl, Select, SelectChangeEvent, MenuItem, CardActions, Button, Table, TableCell, TableHead, TableRow, TableBody, Checkbox, TableContainer, IconButton, Typography, Box, FormControlLabel, InputLabel, Stack } from '@mui/material'
+import { CardHeader, CardContent, FormControl, Select, SelectChangeEvent, MenuItem, CardActions, Button, Table, TableCell, TableHead, TableRow, TableBody, Checkbox, TableContainer, IconButton, Typography, Box, InputLabel, Stack } from '@mui/material'
 
 interface Family {
     type?: string,
@@ -29,6 +29,8 @@ const BasicInfoCard = () => {
     }
 
     const [data, setData] = useState<Array<Family>>([initFamily])
+    const [gender, setGender] = useState<number>(1)
+    const [isHead, setIsHead] = useState<boolean>(true)
 
     const handleType = (e: SelectChangeEvent<string>, index: number) => {
         const newData = [...data]
@@ -63,9 +65,12 @@ const BasicInfoCard = () => {
         return data.filter(family => family.type === type).length > 0
     }
 
+    const 성별입력필요여부 = () => !hasType('직계비속') && data.length > 1
+    const 세대주입력필요여부 = () => gender === 2 && data.length > 1 && !hasType('배우자') && !hasType('직계비속')
+
     return (
         <Card>
-            <CardHeader title='부양가족 정보 입력' />
+            <CardHeader title='부양가족 정보 입력' />1
             <CardContent>
                 <TableContainer sx={{ maxWidth: 600 }}>
                     <Table size="small">
@@ -124,7 +129,7 @@ const BasicInfoCard = () => {
                                         />
                                     </TableCell>
                                     <TableCell align="center">
-                                        <IconButton onClick={(e) => removeFamily(index)} aria-label="delete" disabled={index === 0}>
+                                        <IconButton onClick={() => removeFamily(index)} aria-label="delete" disabled={index === 0}>
                                             <DeleteIcon />
                                         </IconButton>
                                     </TableCell>
@@ -134,15 +139,15 @@ const BasicInfoCard = () => {
                     </Table>
                 </TableContainer>
 
-                <Box mt={4}>
-                    {/* TODO: 부녀자공제 대상 가능성 있을 경우에만 노출 (배우자 있는 여성 or 배우자 없고 부양가족 있는 세대주 여성) */}
+                <Box mt={4} sx={{ display: (성별입력필요여부() || 세대주입력필요여부()) ? 'block' : 'none' }}>
                     <Typography variant="h6">추가 정보</Typography> 
                     <Stack spacing={2} mt={2} direction="row">
-                        <FormControl>
+                        <FormControl sx={{ display: 성별입력필요여부() ? 'block' : 'none' }}>
                             <InputLabel id="input-gender">본인 성별</InputLabel>
                             <Select
                                 labelId="input-gender"
-                                value={1}
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value as number)}
                                 label="본인 성별"
                                 sx={{ minWidth: 100 }}
                             >
@@ -150,11 +155,12 @@ const BasicInfoCard = () => {
                                 <MenuItem value={2}>여성</MenuItem>
                             </Select>
                         </FormControl>
-                        <FormControl>
+                        <FormControl sx={{ display: 세대주입력필요여부() ? 'block' : 'none' }}>
                             <InputLabel id="input-gender">본인 세대주 여부</InputLabel>
                             <Select
                                 labelId="input-gender"
-                                value={1}
+                                value={isHead ? 1 : 2}
+                                onChange={(e) => setIsHead(e.target.value as number === 1)}
                                 label="본인 세대주 여부"
                                 sx={{ minWidth: 150 }}
                             >

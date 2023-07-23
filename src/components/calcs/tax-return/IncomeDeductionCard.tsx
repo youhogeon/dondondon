@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, Stack, Box, Typography, Grid, TextField } from '@mui/material'
+import { Card, CardHeader, CardContent, TextField } from '@mui/material'
 
 const IncomeDeductionCard = () => {
     return (
