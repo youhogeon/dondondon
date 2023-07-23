@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 
 const Content = () => {
     return (
-        <Box mx={3} mt={8} width='100%'>
+        <Box px={3} my={10} width='100%'>
             <Outlet />
         </Box>
     )

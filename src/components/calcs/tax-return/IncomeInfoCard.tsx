@@ -137,7 +137,7 @@ const IncomeInfoCard = () => {
             }
         })
 
-        onChange([])
+        calcAndSetSum()
     }, [])
 
     const onClick = () => {
