@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { menu } from '../../router'
+import { menu } from '../../app/router'
 
 import { List, ListSubheader, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 

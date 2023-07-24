@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react'
 
 
 import Card from '../../common/Card'
+import CardDescription from '../../common/CardDescription'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import { CardHeader, CardContent, FormControl, Select, SelectChangeEvent, MenuItem, CardActions, Button, Table, TableCell, TableHead, TableRow, TableBody, Checkbox, TableContainer, IconButton, Typography, Box, InputLabel, Stack } from '@mui/material'
@@ -71,6 +72,7 @@ const BasicInfoCard = () => {
     return (
         <Card>
             <CardHeader title='부양가족 정보 입력' />
+            <CardDescription>부양가족 수 만큼 소득을 공제받을 수 있습니다.<br />소득세 원천징수액 자동 계산에도 반영됩니다.</CardDescription>
             <CardContent>
                 <TableContainer sx={{ maxWidth: 600 }}>
                     <Table size="small">

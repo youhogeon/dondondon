@@ -7,6 +7,7 @@ import { numericRenderer } from 'handsontable/renderers'
 import { getTax } from './utils'
 import { checkWithWildcard, floorTo10, floorTo1000 } from '../../../utils/string'
 import Card from '../../common/Card'
+import CardDescription from '../../common/CardDescription'
 import HandsonTable, { HandsonTableRef } from '../../common/HandsonTable'
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
@@ -237,6 +238,7 @@ const IncomeInfoCard = () => {
     return (
         <Card>
             <CardHeader title='소득 정보 입력' />
+            <CardDescription>소득을 입력하면 나머지 항목이 자동 계산됩니다.<br />계산된 항목은 참고용으로, 실제 공제액과 차이가 있을 수 있습니다.<br />(실제 국민연금/건강보험료의 기준소득월액은 매년 7월에 전년도 소득을 기준으로 산출됨)</CardDescription>
             <CardContent sx={{ paddingTop: 0 }}>
                 <Tabs value={mode} sx={{ marginBottom: 2 }} onChange={(_event, value) => { setMode(value) }} centered>
                     <Tab value="easy" label="간편 입력" />

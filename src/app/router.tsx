@@ -1,8 +1,8 @@
 import { RouteObject } from 'react-router-dom'
 
-import TaxReturnPage from './pages/calcs/TaxReturnPage'
-import Home from './pages/Home'
-import MainTheme from './themes/MainTheme'
+import TaxReturnPage from '../pages/calcs/TaxReturnPage'
+import Home from '../pages/Home'
+import MainTheme from '../themes/MainTheme'
 
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import HomeIcon from '@mui/icons-material/Home'

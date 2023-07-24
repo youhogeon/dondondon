@@ -7,7 +7,7 @@ import Content from './main/Content.tsx'
 import Side from './main/Side.tsx'
 import TopBar from './main/TopBar.tsx'
 import { mainTheme } from './theme.ts'
-import { getPageNamebyPath } from '../router.tsx'
+import { getPageNamebyPath } from '../app/router.tsx'
 
 import { Box, CssBaseline } from '@mui/material'
 
