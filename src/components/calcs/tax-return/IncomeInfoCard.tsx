@@ -1,4 +1,4 @@
-import { createRef, useEffect, useState } from 'react'
+import { createRef, useEffect, useRef, useState } from 'react'
 
 import Handsontable from 'handsontable'
 import { CellChange } from 'handsontable/common'
@@ -113,6 +113,20 @@ const IncomeInfoCard = () => {
     const [tableData, setTableData] = useState<object[]>([])
     const [mode, setMode] = useState('detail')
     const [showDescription, setShowDescription] = useState(true)
+    const editedByUser = useRef<string[]>([])
+
+    const checkEditedByUser = (row: number, col: string) => {
+        if (!hotRef.current?.hot) return false
+
+        const key = String(row) + col
+
+        if (isEmpty(hotRef.current.hot, row, col)) {
+            editedByUser.current = editedByUser.current.filter((v) => v !== key)
+            return false
+        }
+
+        return editedByUser.current.indexOf(key) !== -1
+    }
 
     // Table 설정 (width, readonly 등)
     useEffect(() => {
@@ -184,20 +198,23 @@ const IncomeInfoCard = () => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         changes.forEach(([row, col, _oldValue, newValue]) => {
             if (!newValue) return
-            if (!checkWithWildcard('수입.*', col as string)) return
+            if (!checkWithWildcard('수입.*', col as string)) {
+                editedByUser.current.push(String(row) + String(col))
+                return
+            }
 
             const 수입 = getData(hot, row, '수입.*')
             
-            if (isEmpty(hot, row, '비과세.식대')) {
+            if (!checkEditedByUser(row, '비과세.식대')) {
                 setData(hot, row, '비과세.식대', Math.min(수입, 200000))
             }
             
             const tax = getTax(수입, 1) // TODO: 가족 수에 따라 바뀌어야 함
-            if (isEmpty(hot, row, '원천징수.소득세')) {
+            if (!checkEditedByUser(row, '원천징수.소득세')) {
                 setData(hot, row, '원천징수.소득세', tax)
             }
 
-            if (isEmpty(hot, row, '원천징수.지방소득세')) {
+            if (!checkEditedByUser(row, '원천징수.지방소득세')) {
                 setData(hot, row, '원천징수.지방소득세', floorTo10(tax * 0.1))
             }
             
@@ -205,17 +222,17 @@ const IncomeInfoCard = () => {
             건보료 = Math.min(건보료, 7_822_560)
             건보료 = Math.max(건보료, 19_780)
 
-            if (isEmpty(hot, row, '공제.국민건강보험')) {
+            if (!checkEditedByUser(row, '공제.국민건강보험')) {
                 setData(hot, row, '공제.국민건강보험', floorTo10(건보료 / 2))
             }
 
-            if (isEmpty(hot, row, '공제.장기요양보험')) {
+            if (!checkEditedByUser(row, '공제.장기요양보험')) {
                 const value = floorTo10(floorTo10(건보료 * 0.009082 / 0.0709) / 2)
 
                 setData(hot, row, '공제.장기요양보험', value)
             }
 
-            if (isEmpty(hot, row, '공제.국민연금')) {
+            if (!checkEditedByUser(row, '공제.국민연금')) {
                 let value = floorTo10(floorTo1000(수입) * 0.045)
                 value = Math.min(value, 265_500)
                 value = Math.max(value, 16_650)
@@ -223,7 +240,7 @@ const IncomeInfoCard = () => {
                 setData(hot, row, '공제.국민연금', value)
             }
 
-            if (isEmpty(hot, row, '공제.고용보험')) {
+            if (!checkEditedByUser(row, '공제.고용보험')) {
                 setData(hot, row, '공제.고용보험', floorTo10(floorTo1000(수입) * 0.009))
             }
         })
