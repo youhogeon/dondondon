@@ -12,7 +12,7 @@ import HandsonTable, { HandsonTableRef } from '../../common/HandsonTable'
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import { Box, Button, CardContent, CardHeader, Grow, Tab, Tabs } from '@mui/material'
+import { Box, Button, CardContent, CardHeader, Grow, Link, Tab, Tabs } from '@mui/material'
 
 const rows = [...Array(12).keys()].map((i) => `${i + 1}월`)
 rows.push('합계')
@@ -112,7 +112,7 @@ const IncomeInfoCard = () => {
     const hotRef = createRef<HandsonTableRef>()
     const [tableData, setTableData] = useState<object[]>([])
     const [mode, setMode] = useState('detail')
-    const [showDescription, setShowDescription] = useState(true)
+    const [showDescription, setShowDescription] = useState(false)
     const editedByUser = useRef<string[]>([])
 
     const checkEditedByUser = (row: number, col: string) => {
@@ -278,7 +278,7 @@ const IncomeInfoCard = () => {
                         <Box sx={{ display: showDescription ? 'block' : 'none' }}>
                             자동 계산된 항목은 참고용으로, 실제 공제액과 차이가 있을 수 있습니다.
                             <ul>
-                                <li>2023년 1월부터 식대 비과세 한도가 20만원(기존 10만원)으로 변경되어 20만원이 자동 입력되나, 사업장/근로형태 등에 따라 식대가 다를 수 있음</li>
+                                <li>2023년 1월부터 <Link href="https://call.nts.go.kr/call/qna/selectQnaInfo.do?mi=1318&ctgId=CTG11918" target="_blank">식대 비과세</Link> 한도가 20만원(기존 10만원)으로 변경되어 20만원이 자동 입력되나, 사업장/근로형태 등에 따라 식대가 다를 수 있음</li>
                                 <li>실제 국민연금/건강보험료는 상반기에는 전전년도 소득, 하반기에는 전년도 소득을 기준으로 산출되지만, 본 계산기는 해당월 소득을 기준으로 산출함.<br />
                                 (참고 : 올해 소득과 전년/전전년도 소득의 차이로 인한 건강보험료 부족분은 내년 4월에 정산함.)</li>
                                 <li>2023.02.28부로 개정된 근로소득 간이세액표를 기준으로 기납부세액(원천징수 소득세/지방소득세)을 계산하였음. 따라서 1~2월 기납부세액과 계산된 값에 차이가 있을 수 있음.</li>
