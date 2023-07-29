@@ -8,7 +8,7 @@ import TitleBox from '../../common/TitleBox'
 import { CardHeader, CardContent, Stack, Link } from '@mui/material'
 
 
-const IncomeDeductionCard = () => {
+const TaxDeductionCard = () => {
     return (
         <Card>
             <CardHeader title='소득 공제' />
@@ -349,4 +349,4 @@ const IncomeDeductionCard = () => {
     )
 }
 
-export default IncomeDeductionCard
+export default TaxDeductionCard
