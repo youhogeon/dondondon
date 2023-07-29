@@ -155,11 +155,6 @@ const IncomeInfoCard = () => {
         calcAndSetSum()
     }, [])
 
-    const onClick = () => {
-        // eslint-disable-next-line no-console
-        console.log(JSON.stringify(tableData[rowLength - 1]))
-    }
-
     const calcAndSetSum = () => {
         const hot = hotRef.current?.hot
         if (!hot) return
@@ -255,7 +250,7 @@ const IncomeInfoCard = () => {
     return (
         <Card>
             <CardHeader title='소득 정보 입력' />
-            <CardDescription>소득을 입력하면 나머지 항목이 자동 계산됩니다.<br />계산된 항목은 참고용으로, 실제 공제액과 차이가 있을 수 있습니다.<br />(실제 국민연금/건강보험료의 기준소득월액은 매년 7월에 전년도 소득을 기준으로 산출됨)</CardDescription>
+            <CardDescription>소득을 입력하면 나머지 항목이 자동 계산됩니다.</CardDescription>
             <CardContent sx={{ paddingTop: 0 }}>
                 <Tabs value={mode} sx={{ marginBottom: 2 }} onChange={(_event, value) => { setMode(value) }} centered>
                     <Tab value="easy" label="간편 입력" />
@@ -272,11 +267,8 @@ const IncomeInfoCard = () => {
 
                 <Box mt={2}>
                     <Button size="small" onClick={() => { setShowDescription(!showDescription) }}>
-                        {showDescription ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        {showDescription ? '설명 닫기' : '자세한 설명 보기'}
-                    </Button>
-                    <Button size='small' onClick={onClick}>
-                        로그 찍기
+                        {showDescription ? <KeyboardArrowUpIcon aria-label="닫기" /> : <KeyboardArrowDownIcon aria-label="열기" />}
+                        실제 공제내역과 자동 계산값이 다른 이유
                     </Button>
 
                     <Grow
@@ -284,7 +276,13 @@ const IncomeInfoCard = () => {
                         style={{ transformOrigin: '0 0 0' }}
                     >
                         <Box sx={{ display: showDescription ? 'block' : 'none' }}>
-                            asfadf<br />sdfasfas
+                            자동 계산된 항목은 참고용으로, 실제 공제액과 차이가 있을 수 있습니다.
+                            <ul>
+                                <li>2023년 1월부터 식대 비과세 한도가 20만원(기존 10만원)으로 변경되어 20만원이 자동 입력되나, 사업장/근로형태 등에 따라 식대가 다를 수 있음</li>
+                                <li>실제 국민연금/건강보험료는 상반기에는 전전년도 소득, 하반기에는 전년도 소득을 기준으로 산출되지만, 본 계산기는 해당월 소득을 기준으로 산출함.<br />
+                                (참고 : 올해 소득과 전년/전전년도 소득의 차이로 인한 건강보험료 부족분은 내년 4월에 정산함.)</li>
+                                <li>2023.02.28부로 개정된 근로소득 간이세액표를 기준으로 기납부세액(원천징수 소득세/지방소득세)을 계산하였음. 따라서 1~2월 기납부세액과 계산된 값에 차이가 있을 수 있음.</li>
+                            </ul>
                         </Box>
                     </Grow>
                 </Box>
