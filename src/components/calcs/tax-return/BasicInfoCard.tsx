@@ -14,7 +14,7 @@ interface Family {
 }
 
 const FAMILY_TYPES = ['본인', '배우자', '직계존속', '직계비속', '형제자매', '위탁아동', '그 외(수급자)']
-const FAMILY_AGES = ['올해 출생', '만 8세 미만', '만 8세 ~ 20세', '만 21세 ~ 59세', '만 60세 ~ 69세', '만 70세 이상']
+const FAMILY_AGES = ['만 8세 미만', '만 8세 ~ 20세', '만 21세 ~ 59세', '만 60세 ~ 69세', '만 70세 이상']
 
 const BasicInfoCard = () => {
     const initFamily = {

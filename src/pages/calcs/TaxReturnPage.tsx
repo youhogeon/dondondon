@@ -11,6 +11,7 @@ const TaxReturnPage = () => {
             <BasicInfoCard />
             <IncomeInfoCard />
             <IncomeDeductionCard />
+            <TaxDeductionCard />
         </Stack>
     )
 }

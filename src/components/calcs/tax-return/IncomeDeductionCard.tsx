@@ -133,6 +133,7 @@ const IncomeDeductionCard = () => {
 
                                                 <Link href="https://www.koreatax.org/tax/taxpayers/work/turn41.htm" target="_blank">자세히 보기</Link>
                                             </InputWithPopper>
+
                                             <InputWithPopper
                                                 label="(구) 청약저축"
                                                 defaultValue="0"
@@ -161,92 +162,87 @@ const IncomeDeductionCard = () => {
 
                                                 <Link href="https://www.koreatax.org/tax/taxpayers/work/turn41.htm" target="_blank">자세히 보기</Link>
                                             </InputWithPopper>
-
                                         </Stack>
                                     </TitleBox>
                                 </Stack>
                             </TitleBox>
 
-                            <TitleBox title="★ 소비">
-                                <Stack spacing={6}>
-                                    <TitleBox title="총급여의 25% 이상 소비시 공제 (현재 0,000,000원 / 3,000,000원)">
-                                        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                                            <InputWithPopper
-                                                label="신용카드 사용액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                총급여의 25% 이상 소비분(신용카드+체크카드+현금영수증)에 대해 15% 공제<br /><br />
-                                                전통시장/대중교통 사용액 제외하고 입력하세요.
-                                            </InputWithPopper>
+                            <TitleBox title="★ 총급여의 25% 이상 소비시 공제 (현재 0,000,000원 / 3,000,000원)">
+                                <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+                                    <InputWithPopper
+                                        label="신용카드 사용액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        총급여의 25% 이상 소비분(신용카드+체크카드+현금영수증)에 대해 15% 공제<br /><br />
+                                        전통시장/대중교통 사용액 제외하고 입력하세요.
+                                    </InputWithPopper>
 
-                                            <InputWithPopper
-                                                label="체크카드/현금영수증 사용액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                총급여의 25% 이상 소비분(신용카드+체크카드+현금영수증)에 대해 30% 공제<br /><br />
-                                                전통시장/대중교통 사용액 제외하고 입력하세요.
-                                            </InputWithPopper>
-                                        </Stack>
-                                    </TitleBox>
+                                    <InputWithPopper
+                                        label="체크카드/현금영수증 사용액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        총급여의 25% 이상 소비분(신용카드+체크카드+현금영수증)에 대해 30% 공제<br /><br />
+                                        전통시장/대중교통 사용액 제외하고 입력하세요.
+                                    </InputWithPopper>
+                                </Stack>
+                            </TitleBox>
 
-                                    <TitleBox title="소비 추가공제 (현재 0,000,000원 / 3,000,000원)">
-                                        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                                            <InputWithPopper
-                                                label="전통시장 사용액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                공제율 : 40%
-                                            </InputWithPopper>
+                            <TitleBox title="★ 소비 추가공제 (현재 0,000,000원 / 3,000,000원)">
+                                <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+                                    <InputWithPopper
+                                        label="전통시장 사용액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        공제율 : 40%
+                                    </InputWithPopper>
 
-                                            <InputWithPopper
-                                                label="대중교통 사용액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                공제율 : 80%
-                                            </InputWithPopper>
+                                    <InputWithPopper
+                                        label="대중교통 사용액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        공제율 : 80%
+                                    </InputWithPopper>
 
-                                            <InputWithPopper
-                                                label="도서･공연 등 사용액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                공제율 : 30%<br />
-                                                조건 : 총급여 7000만원 이하<br /><br />
+                                    <InputWithPopper
+                                        label="도서･공연 등 사용액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        공제율 : 30%<br />
+                                        조건 : 총급여 7000만원 이하<br /><br />
 
-                                                도서･공연･신문･박물관･미술관･영화관람료 사용액을 입력하세요. (단 영화관람료는 하반기 사용분만 인정)
-                                            </InputWithPopper>
-                                        </Stack>
-                                    </TitleBox>
+                                        도서･공연･신문･박물관･미술관･영화관람료 사용액을 입력하세요. (단 영화관람료는 하반기 사용분만 인정)
+                                    </InputWithPopper>
+                                </Stack>
+                            </TitleBox>
 
-                                    <TitleBox title="소비 증가분 공제 (현재 0,000,000원 / 1,000,000원)">
-                                        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                                            <InputWithPopper
-                                                label="작년(2022년) 전체 소비액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                2023년 전체 소비액(신용카드+체크카드+현금영수증)이 2022년 전체 소비액보다 5% 이상 증가한 경우, 증가분의 20% 공제
-                                            </InputWithPopper>
+                            <TitleBox title="★ 소비 증가분 공제 (현재 0,000,000원 / 1,000,000원)">
+                                <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+                                    <InputWithPopper
+                                        label="작년(2022년) 전체 소비액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        2023년 전체 소비액(신용카드+체크카드+현금영수증)이 2022년 전체 소비액보다 5% 이상 증가한 경우, 증가분의 20% 공제
+                                    </InputWithPopper>
 
-                                            <InputWithPopper
-                                                label="작년(2022년) 전통시장 사용액"
-                                                defaultValue="0"
-                                                helperText="공제 : 1,000,214원"
-                                            >
-                                                2023년 전통시장 소비액(신용카드+체크카드+현금영수증)이 2022년 전통시장 소비액보다 5% 이상 증가한 경우, 증가분의 20% 공제
-                                            </InputWithPopper>
-                                        </Stack>
-                                    </TitleBox>
+                                    <InputWithPopper
+                                        label="작년(2022년) 전통시장 사용액"
+                                        defaultValue="0"
+                                        helperText="공제 : 1,000,214원"
+                                    >
+                                        2023년 전통시장 소비액(신용카드+체크카드+현금영수증)이 2022년 전통시장 소비액보다 5% 이상 증가한 경우, 증가분의 20% 공제
+                                    </InputWithPopper>
                                 </Stack>
                             </TitleBox>
 
                             <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
                                 <InputWithPopper
-                                    label="소기업,소상공인공제(노란우산공제) 부금"
+                                    label="소상공인공제(노란우산공제) 부금"
                                     defaultValue="0"
                                     helperText="공제 : 1,000,214원"
                                 >
@@ -334,7 +330,7 @@ const IncomeDeductionCard = () => {
                         </InputWithPopper>
 
                         <InputWithPopper
-                            label="고용유지중소기업 근로자의 임금삭감액"
+                            label="고용유지중소기업 임금삭감액"
                             defaultValue="0"
                             helperText="공제 : 1,000,214원"
                         >

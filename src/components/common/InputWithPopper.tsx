@@ -41,7 +41,7 @@ const InputWithPopper = (props: InputWithPopperProps) => {
                     readOnly: props.readOnly,
                 }}
             />
-            <Popper open={open} anchorEl={anchorEl} placement="top-start" disablePortal={true} sx={{ zIndex:900 }}  transition modifiers={[{
+            <Popper open={open} anchorEl={anchorEl} placement="top-start" disablePortal={false} sx={{ zIndex:900 }} transition modifiers={[{
                 name: 'flip',
                 enabled: false
             }]}>

@@ -193,18 +193,19 @@ const IncomeInfoCard = () => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         changes.forEach(([row, col, _oldValue, newValue]) => {
             if (!newValue) return
-            if (!checkWithWildcard('수입.*', col as string)) {
+            if (!checkWithWildcard('수입.*', col as string) && !checkWithWildcard('비과세.*', col as string)) {
                 editedByUser.current.push(String(row) + String(col))
                 return
             }
 
             const 수입 = getData(hot, row, '수입.*')
+            const 과세수입 = 수입 - getData(hot, row, '비과세.*')
             
             if (!checkEditedByUser(row, '비과세.식대')) {
                 setData(hot, row, '비과세.식대', Math.min(수입, 200000))
             }
             
-            const tax = getTax(수입, 1) // TODO: 가족 수에 따라 바뀌어야 함
+            const tax = getTax(과세수입, 1) // TODO: 가족 수에 따라 바뀌어야 함
             if (!checkEditedByUser(row, '원천징수.소득세')) {
                 setData(hot, row, '원천징수.소득세', tax)
             }
@@ -213,7 +214,7 @@ const IncomeInfoCard = () => {
                 setData(hot, row, '원천징수.지방소득세', floorTo10(tax * 0.1))
             }
             
-            let 건보료 = floorTo10(floorTo1000(수입) * 0.0709)
+            let 건보료 = floorTo10(floorTo1000(과세수입) * 0.0709)
             건보료 = Math.min(건보료, 7_822_560)
             건보료 = Math.max(건보료, 19_780)
 
@@ -228,7 +229,7 @@ const IncomeInfoCard = () => {
             }
 
             if (!checkEditedByUser(row, '공제.국민연금')) {
-                let value = floorTo10(floorTo1000(수입) * 0.045)
+                let value = floorTo10(floorTo1000(과세수입) * 0.045)
                 value = Math.min(value, 265_500)
                 value = Math.max(value, 16_650)
 
@@ -236,7 +237,7 @@ const IncomeInfoCard = () => {
             }
 
             if (!checkEditedByUser(row, '공제.고용보험')) {
-                setData(hot, row, '공제.고용보험', floorTo10(floorTo1000(수입) * 0.009))
+                setData(hot, row, '공제.고용보험', floorTo10(floorTo1000(과세수입) * 0.009))
             }
         })
 
